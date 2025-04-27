@@ -22,14 +22,14 @@ public class Health : MonoBehaviour
 
     private void OnEnable()
     {
-        _healer.Healed += GiveHeal;
-        _damager.Damaged += GiveDamage;
+        _healer.Pressed += GiveHeal;
+        _damager.Pressed += GiveDamage;
     }
 
     private void OnDisable()
     {
-        _healer.Healed -= GiveHeal;
-        _damager.Damaged -= GiveDamage;
+        _healer.Pressed -= GiveHeal;
+        _damager.Pressed -= GiveDamage;
     }
 
     public void GiveHeal(int healPoints)

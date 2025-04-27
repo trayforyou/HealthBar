@@ -1,35 +1,55 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SmoothHealthBar : MonoBehaviour
+public class SmoothHealthBar : HealthVisualizator
 {
-    [SerializeField] private Health _health;
     [SerializeField] private Slider _slider;
-    [SerializeField] private float _smooth;
-
-    private int _healthValue;
-
-    private void OnEnable() =>
-        _health.StateChanged += ChangeHealthValue;
-
-    private void OnDisable() =>
-        _health.StateChanged -= ChangeHealthValue;
-
-    private void FixedUpdate()
-    {
-        if (_slider.value != _healthValue)
-            _slider.value = Mathf.MoveTowards(_slider.value, _healthValue, _smooth);
-    }
-
-    private void ChangeHealthValue(int newValue)
-    {
-        if(_healthValue == 0)
-            _slider.maxValue = newValue;
-
-        _healthValue = newValue;
-    }
+    [SerializeField] private float _changeValueSpeed;
     
+    private float _changeStep;
+    private Coroutine _coroutine;
+    private WaitForSeconds wait;
+
+    private void Awake()
+    {
+        _changeStep = 0.5f;
+        wait = new WaitForSeconds(_changeValueSpeed);
+    }
+
+    private void OnDisable()
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+    }
+
+    protected override void VisualiseNewValue(int newValue)
+    {
+        base.VisualiseNewValue(newValue);
+
+        if (_slider.maxValue != _maxValue)
+        {
+            _slider.maxValue = _maxValue;
+            _slider.value = _maxValue;
+        }
+
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        _coroutine = StartCoroutine(StartChangeValue(newValue));
+    }
+
+    private IEnumerator StartChangeValue(int newValue)
+    {
+        while (_slider.value != newValue)
+        {
+            _slider.value = Mathf.MoveTowards(_slider.value, newValue, _changeStep);
+
+            yield return wait;
+        }
+
+        _coroutine = null;
+
+        yield break;
+    }
 }
