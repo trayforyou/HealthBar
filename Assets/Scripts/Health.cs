@@ -4,14 +4,10 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField, Min(1)] private int _curentValue;
-    [SerializeField] private Healer _healer;
-    [SerializeField] private Damager _damager;
 
     private int _maxHealth;
-    private int _tempValue;
 
     public event Action<int> StateChanged;
-    public event Action Died;
 
     public void Awake()
     {
@@ -20,21 +16,9 @@ public class Health : MonoBehaviour
         _maxHealth = _curentValue;
     }
 
-    private void OnEnable()
-    {
-        _healer.Pressed += GiveHeal;
-        _damager.Pressed += GiveDamage;
-    }
-
-    private void OnDisable()
-    {
-        _healer.Pressed -= GiveHeal;
-        _damager.Pressed -= GiveDamage;
-    }
-
     public void GiveHeal(int healPoints)
     {
-        _tempValue = 0;
+        int _tempValue = 0;
         _tempValue = _curentValue + healPoints;
 
         if (_tempValue <= _maxHealth)
@@ -53,7 +37,9 @@ public class Health : MonoBehaviour
 
     public void GiveDamage(int damagePoints)
     {
-        _tempValue = 0;
+        damagePoints = CheckCorrectNumber(damagePoints);
+
+        int _tempValue = 0;
         _tempValue = _curentValue - damagePoints;
 
         if (_tempValue <= 0)
@@ -61,8 +47,6 @@ public class Health : MonoBehaviour
             _curentValue = 0;
 
             StateChanged?.Invoke(_curentValue);
-
-            Die();
         }
         else
         {
@@ -72,10 +56,11 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    private int CheckCorrectNumber(int number)
     {
-        Died?.Invoke();
+        if (number < 0)
+            number = 0;
 
-        OnDisable();
+        return number;
     }
 }

@@ -256,7 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1059079ea37b24894f4d2655731ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _points: 5
+  _points: 15
+  _health: {fileID: 1844263689}
   _button: {fileID: 50458141}
 --- !u!1 &257152067
 GameObject:
@@ -846,6 +847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _points: 5
+  _health: {fileID: 1844263689}
   _button: {fileID: 1415040648}
 --- !u!1 &1449172919
 GameObject:
@@ -1392,8 +1394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _curentValue: 100
-  _healer: {fileID: 1415040651}
-  _damager: {fileID: 50458144}
 --- !u!4 &1844263690
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,7 +1692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 1844263689}
   _text: {fileID: 1593346994}
-  _splitter: '|'
+  _splitter: /
 --- !u!1 &2138889028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: 1844263689}
   _slider: {fileID: 2138889031}
-  _changeValueSpeed: 0.02
+  _changeValueSpeed: 0.01
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class HealthVisualizator : MonoBehaviour
 
     protected virtual void VisualiseNewValue(int newValue)
     {
-        if (!_isSetMaxValue)
+        if (_isSetMaxValue == false)
         {
             _maxValue = newValue;
             _isSetMaxValue = true;

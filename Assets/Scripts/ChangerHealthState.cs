@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangerHealthState : MonoBehaviour
+public abstract class ChangerHealthState : MonoBehaviour
 {
-    [SerializeField, Min(1)] private int _points;
+    [SerializeField, Min(1)] protected int _points;
+    [SerializeField] protected Health _health;
     [SerializeField] private Button _button;
-
-    public event Action<int> Pressed;
 
     private void OnEnable() =>
         _button.onClick.AddListener(SendPoints);
@@ -15,6 +13,5 @@ public class ChangerHealthState : MonoBehaviour
     private void OnDisable() =>
         _button.onClick.RemoveListener(SendPoints);
 
-    private void SendPoints() =>
-        Pressed?.Invoke(_points);
+    protected abstract void SendPoints();
 }
